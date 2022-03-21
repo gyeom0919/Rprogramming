@@ -1,0 +1,303 @@
+국내 교통사고 분석
+===
+author: 이겸, 전현민, 김강민
+date: `r format(Sys.time(), '%d %B, %Y')`
+width: 1440
+height: 900
+transition: linear
+
+<p>
+  2020년도 국내 교통사고 분석 및 시각화
+  <br>
+     
+  </br>
+  지역별 교통사고 비율 / 교통사고 유형
+</p>
+
+주제를 선택하게된 이유
+===
+왜 다양한 주제들중 교통사고 분석을 선택했을까?
+  
+<font size = "10px">
+* 운전면허 취득 가능
+* 교통사고 비율에 대한 호기심
+* 교통사고 유형에 관한 호기심
+
+</font>
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
+library(tidyverse)
+library(png)
+library(grid)
+library(datasets)
+library(ggplot2)
+library(scales)
+library(RColorBrewer)
+library(dplyr)
+library(rmarkdown)
+```
+
+```{r, include=FALSE}
+city <- read.csv(file = 'D:Rpres/city.csv')
+accident_value <- read.csv(file = 'D:Rpres/accident_value.csv')
+```
+```{r, include=FALSE}
+city <- read.csv(file = 'D:Rpres/city.csv')
+accident_value <- read.csv(file = 'D:Rpres/accident_value.csv')
+traffic <- read.csv(file = 'D:Rpres/traffic.csv')
+```
+
+```{r, include=FALSE}
+Seoul <- filter(city, city == "서울")
+Jeju <- filter(city, city == "제주")
+Busan <- filter(city, city == "부산")
+Gyeonggi <- filter(city, city == "경기")
+Chungnam <- filter(city, city == "충남")
+Jeonbuk <- filter(city, city == "전북")
+Jeonnam <- filter(city, city == "전남")
+Gyeongbuk <- filter(city, city == "경북")
+Gyeongnam <- filter(city, city == "경남")
+Daegu <- filter(city, city == "대구")
+incheon <- filter(city, city == "인천")
+Gwangju <- filter(city, city == "광주")
+Daejeon <- filter(city, city == "대전")
+Ulsan <- filter(city, city == "울산")
+Sejong <- filter(city, city == "세종")
+Gangwon <- filter(city, city == "강원")
+Chungbuk <- filter(city, city == "충북") 
+
+Cartopeople <- filter(accident_value, large == "차대사람")
+Cartocar <- filter(accident_value, large == "차대차")
+Caronly <- filter(accident_value, large == "차량단독")
+CorssRail <- filter(accident_value, large == "철길건널목")
+
+```
+
+```{r, include=FALSE}
+Seoul_b <- Seoul %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+Seoul_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r, include=FALSE}
+Busan_b <- Busan %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Busan_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Chungbuk_b <- Chungbuk %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Chungbuk_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r, include=FALSE}
+Chungnam_b <- Chungnam %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Chungnam_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r, include=FALSE}
+Daegu_b <- Daegu %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Daegu_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r, include=FALSE}
+Daejeon_b <- Daejeon %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Daejeon_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r, include=FALSE}
+Gangwon_b <- Gangwon %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Gangwon_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+
+```{r, include=FALSE}
+Gwangju_b <- Gwangju %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Gwangju_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Gyeongbuk_b <- Gyeongbuk %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Gyeongbuk_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Gyeonggi_b <- Gyeonggi %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Gyeonggi_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Gyeongnam_b <- Gyeongnam %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Gyeongnam_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+incheon_b <- incheon %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+incheon_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Jeju_b <- Jeju %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Jeju_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Jeonbuk_b <- Jeonbuk %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Jeonbuk_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Jeonnam_b <- Jeonnam %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Jeonnam_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Sejong_b <- Sejong %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Sejong_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+```{r,include=FALSE}
+Ulsan_b <- Ulsan %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Ulsan_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###유형별 사고 횟수
+```{r}
+Sum_number <- accident_value %>% 
+  ggplot(aes(x = reorder(large, -sum), y = sum, fill = large)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Sum_number + scale_colour_gradient() + geom_text(aes(label=sum), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###차대차 종류별 사고 횟수
+```{r}
+Cartocar_b <- Cartocar %>% 
+  ggplot(aes(x = reorder(middle, -number_accident), y = number_accident, fill = middle)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Cartocar_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###차량단독 종류별 사고 횟수
+```{r}
+Caronly_b <- Caronly %>% 
+  ggplot(aes(x = reorder(middle, -number_accident), y = number_accident, fill = middle)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Caronly_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###차대사람 종류별 사고 횟수
+```{r}
+Cartopeople_b <- Cartopeople %>% 
+  ggplot(aes(x = reorder(middle, -number_accident), y = number_accident, fill = middle)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+Cartopeople_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###철길건널목 종류별 사고 횟수
+```{r}
+CorssRail_b <- CorssRail %>% 
+  ggplot(aes(x = reorder(middle, -number_accident), y = number_accident, fill = middle)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+CorssRail_b + scale_colour_gradient() + geom_text(aes(label=number_accident), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+###유형별 사망률
+```{r}
+death_aver_b <- accident_value %>% 
+  ggplot(aes(x = reorder(large, -death_aver), y = death_aver, fill = large)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+death_aver_b + scale_colour_gradient() + geom_text(aes(label=death_aver), vjust=1.6, color="black", position = position_dodge(0.9), size=3)
+```
+
+###교통량의 변화
+```{r}
+traffic_change <- traffic %>% 
+  ggplot(aes(x = year, y = sum, fill = year)) +
+  geom_bar(stat = 'identity', width = 1)
+
+traffic_change + scale_colour_gradient() + geom_text(aes(label=sum), vjust=1.6, color="white", position = position_dodge(0.9), size=4)
+```
+
+
+지역별 교통사고 비율
+===
+
+서울의 교통사고 비율
+
+```{r}
+Seoul_b <- Seoul %>% 
+  ggplot(aes(x = reorder(city_small, -number_accident), y = number_accident, fill = city_small)) +
+  geom_bar(stat = 'identity', width = 0.4)
+
+plot(Seoul_b)
+```
+
+```{r}
+Seoul_b
+```
+
+## Another simple plot_ly
+
+```{r, echo = FALSE, fig.align = 'center', message = FALSE}
+
+```
+
+
+===================
